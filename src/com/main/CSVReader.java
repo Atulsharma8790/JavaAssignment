@@ -161,10 +161,16 @@ public class CSVReader {
 	private static void getTaxInfo(String itemFile, List<TaxInfo> taxInfos) {
 		BufferedReader br = null;
 		String line = "";
+		int iteration = 0;
 		try {
 
 			br = new BufferedReader(new FileReader(itemFile));
 			while ((line = br.readLine()) != null) {
+				if(iteration==0) {
+					iteration++;
+					continue;
+				}
+				
 				String[] taxInfo = line.split(DELIM);
 				if (taxInfo != null && taxInfo.length == 4) {
 					taxInfos.add(new TaxInfo(taxInfo[0], taxInfo[1], Double.parseDouble(taxInfo[2]),
@@ -190,11 +196,16 @@ public class CSVReader {
 	private static void getItemInfo(String taxFile, List<ItemInfo> items) {
 		BufferedReader br = null;
 		String line = "";
+		int iteration = 0;
 		try {
 
 			br = new BufferedReader(new FileReader(taxFile));
 
 			while ((line = br.readLine()) != null) {
+				if(iteration==0) {
+					iteration++;
+					continue;
+				}
 				System.out.println(line);
 				String[] itemInfo = line.split(DELIM);
 				if (itemInfo != null && itemInfo.length == 5) {
