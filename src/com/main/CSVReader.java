@@ -108,16 +108,17 @@ public class CSVReader {
 				break;
 			}
 		}
-		double perchaseTax1Computed = itemInfo.getPurchasePrice() * tax1Perc;
-		double perchaseTax2Computed = perchaseTax1Computed * tax2Perc;
-		double totalTax = Math.round(perchaseTax1Computed + perchaseTax2Computed);
+		double perchaseTax1Computed = (itemInfo.getPurchasePrice() * tax1Perc)/100;
+		double perchaseTax2Computed = (perchaseTax1Computed * tax2Perc)/100;
+		double totalTax = Math.round((perchaseTax1Computed + perchaseTax2Computed)*100.0)/100.0;
 
-		double salesPriceTax1Computed = itemInfo.getSalePrice() * tax1Perc;
-		double salesPriceTax2Computed = salesPriceTax1Computed * tax2Perc;
-		double totalSalesPriceTax = Math.round(salesPriceTax1Computed + salesPriceTax2Computed);
+//		double salesPriceTax1Computed = itemInfo.getSalePrice() * tax1Perc;
+//		double salesPriceTax2Computed = salesPriceTax1Computed * tax2Perc;
+//		double totalSalesPriceTax = Math.round((salesPriceTax1Computed + salesPriceTax2Computed)*100.0)/100.0;
 
-		double gain = totalSalesPriceTax - (itemInfo.getPurchasePrice() + totalTax);
-		double gainPerc = (gain / itemInfo.getPurchasePrice()) * 100;
+		double gain = itemInfo.getSalePrice() - (itemInfo.getPurchasePrice()+totalTax);
+//		double gain = totalSalesPriceTax - (itemInfo.getPurchasePrice() + totalTax);
+		double gainPerc = (((gain / itemInfo.getPurchasePrice()) * 100)*100.0)/100.0;
 
 		double taxInclusiveExisting = totalTax + existingDetails.getTotalTaxes();
 		double totalPerchasePrice = itemInfo.getPurchasePrice() + existingDetails.getTotalPurchase();
@@ -142,15 +143,17 @@ public class CSVReader {
 				break;
 			}
 		}
-		double perchaseTax1Computed = itemInfo.getPurchasePrice() * tax1Perc;
-		double perchaseTax2Computed = perchaseTax1Computed * tax2Perc;
+		double perchaseTax1Computed = (itemInfo.getPurchasePrice() * tax1Perc)/100;
+		double perchaseTax2Computed = (perchaseTax1Computed * tax2Perc)/100;
 		double totalTax = Math.round(perchaseTax1Computed + perchaseTax2Computed);
 
-		double salesPriceTax1Computed = itemInfo.getSalePrice() * tax1Perc;
-		double salesPriceTax2Computed = salesPriceTax1Computed * tax2Perc;
-		double totalSalesPriceTax = Math.round(salesPriceTax1Computed + salesPriceTax2Computed);
+//		double salesPriceTax1Computed = itemInfo.getSalePrice() * tax1Perc;
+//		double salesPriceTax2Computed = salesPriceTax1Computed * tax2Perc;
+//		double totalSalesPriceTax = Math.round((salesPriceTax1Computed + salesPriceTax2Computed)*100.0)/100.0;
 
-		double gain = totalSalesPriceTax - (itemInfo.getPurchasePrice() + totalTax);
+		double gain = itemInfo.getSalePrice() - (itemInfo.getPurchasePrice() + totalTax);
+		
+		//double gain = totalSalesPriceTax - (itemInfo.getPurchasePrice() + totalTax);
 		double gainPerc = (gain / itemInfo.getPurchasePrice()) * 100;
 
 		subCatToItemDetailsMap.put(itemInfo.getSubCategory(),
