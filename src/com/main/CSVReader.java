@@ -52,7 +52,7 @@ public class CSVReader {
 			}
 		}
 		// generate Output CSV
-		if (args.length > 2) {
+		if (!itemFile.isEmpty() && !taxFile.isEmpty()) {
 			writeToCSV(args, categoryToSubCategoryItemDetailsMap);
 		}
 	}
@@ -77,7 +77,7 @@ public class CSVReader {
 			CSVUtil.writeLine(writer, header);
 			for (Map<SubCategory, ItemDetails> details : categoryToSubCategoryItemDetailsMap.values()) {
 				for (ItemDetails itemInfo : details.values()) {
-					List<String> values = header;
+					List<String> values =  new ArrayList<String>();
 					values.add(itemInfo.getCategory().getCategoryName());
 					values.add(itemInfo.getSubCategory().getDisplayString());
 					values.add(String.valueOf(itemInfo.getTotalPurchase()));
@@ -170,11 +170,11 @@ public class CSVReader {
 					iteration++;
 					continue;
 				}
-				
+				System.out.println(line);
 				String[] taxInfo = line.split(DELIM);
 				if (taxInfo != null && taxInfo.length == 4) {
-					taxInfos.add(new TaxInfo(taxInfo[0], taxInfo[1], Double.parseDouble(taxInfo[2]),
-							Double.parseDouble(taxInfo[3])));
+					taxInfos.add(new TaxInfo(taxInfo[0].replace("\"", "").trim(), taxInfo[1].trim(), Double.parseDouble(taxInfo[2].replace("\"", "").trim()),
+							Double.parseDouble(taxInfo[3].replace("\"", "").trim())));
 				}
 			}
 
@@ -200,7 +200,7 @@ public class CSVReader {
 		try {
 
 			br = new BufferedReader(new FileReader(taxFile));
-
+			br.readLine();
 			while ((line = br.readLine()) != null) {
 				if(iteration==0) {
 					iteration++;
@@ -209,8 +209,9 @@ public class CSVReader {
 				System.out.println(line);
 				String[] itemInfo = line.split(DELIM);
 				if (itemInfo != null && itemInfo.length == 5) {
-					items.add(new ItemInfo(itemInfo[0], itemInfo[1], itemInfo[2], Double.parseDouble(itemInfo[3]),
-							Double.parseDouble(itemInfo[4])));
+					items.add(new ItemInfo(itemInfo[0].replace("\"", ""), itemInfo[1], itemInfo[2], Double.parseDouble(itemInfo[3]),
+							Double.parseDouble(itemInfo[4].replace("\"", ""))));
+					
 				}
 			}
 
@@ -218,7 +219,10 @@ public class CSVReader {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
 			if (br != null) {
 				try {
 					br.close();
