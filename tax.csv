@@ -1,0 +1,5 @@
+﻿"Category, 	Sub-Category, 	Tax-1(% of purchase price)	, Tax-2 (% of Tax1) (e.g. if tax1= 600 then tax2 = (tax1 * 2.5)/100 => 15,"
+"TV		,	Plazma		,	6.5							,2.5,"
+"TV		,	LCD			,	8.5							,3,"
+"Mobile	,	Samsung		,	4.5							,3.5,"
+"Mobbile	,	Lenova		,	5.5							,4,"
